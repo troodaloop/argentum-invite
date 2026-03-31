@@ -1,0 +1,43 @@
+<section class="lawmakers-section" aria-labelledby="lawmakers-heading">
+  <h1 id="lawmakers-heading">Your Federal Lawmakers</h1>
+  <p class="section-intro">
+    Based on the address you provided
+    <% if (typeof address !== 'undefined' && address) { %>
+      (<strong><%= address %></strong>)
+    <% } %>, here are your members of the <strong>119th U.S. Congress</strong>:
+  </p>
+
+  <div class="lawmakers-grid" role="list">
+    <% lawmakers.forEach((lm, index) => { %>
+    <article class="lawmaker-card" role="listitem">
+      <div class="lawmaker-photo-wrap">
+        <img
+          src="<%= lm.photo_url %>"
+          alt="Official photo of <%= lm.title %> <%= lm.name %>"
+          class="lawmaker-photo"
+          loading="<%= index === 0 ? 'eager' : 'lazy' %>"
+          onerror="this.src='/images/placeholder-photo.svg'; this.alt='Photo not available';"
+        >
+      </div>
+      <div class="lawmaker-info">
+        <h2 class="lawmaker-name"><%= lm.title %> <%= lm.name %></h2>
+        <p class="lawmaker-party"><%= lm.party %></p>
+        <p class="lawmaker-district"><%= lm.district_label %></p>
+      </div>
+    </article>
+    <% }); %>
+  </div>
+
+  <div class="not-right" aria-labelledby="not-right-heading">
+    <h3 id="not-right-heading">Not the right lawmakers?</h3>
+    <p>
+      If these don't look correct, <a href="/">go back and try a different address</a>.
+      You can also verify at
+      <a href="https://www.house.gov/representatives/find-your-representative" target="_blank" rel="noopener">house.gov</a>.
+    </p>
+  </div>
+
+  <div class="section-actions">
+    <a href="/letter" class="btn btn-primary btn-lg">Continue to Write Your Letter</a>
+  </div>
+</section>

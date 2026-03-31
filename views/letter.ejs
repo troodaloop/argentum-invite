@@ -1,0 +1,44 @@
+<section class="letter-section" aria-labelledby="letter-heading">
+  <h1 id="letter-heading">Write Your Invitation Letter</h1>
+  <p class="section-intro">
+    Below is a pre-written invitation letter you can customize and send to each of your lawmakers.
+    Edit the <strong>bracketed fields [like this]</strong> with your community's specific details.
+  </p>
+
+  <div class="letter-tips" aria-labelledby="tips-heading">
+    <h2 id="tips-heading">Tips for a Great Invitation</h2>
+    <ul>
+      <li>Replace all <strong>[bracketed]</strong> placeholders with your actual information</li>
+      <li>Mention specific programs or services that would interest the lawmaker</li>
+      <li>Suggest 2-3 possible dates to make scheduling easier</li>
+      <li>Keep the tone professional but warm and inviting</li>
+    </ul>
+  </div>
+
+  <form action="/contact" method="POST" class="letter-form" id="letter-form">
+    <div class="form-group">
+      <label for="subject-line">Email Subject Line</label>
+      <input type="text" id="subject-line" name="subject"
+             value="<%= subject || 'Invitation to Visit [Community Name] - Senior Living Community Tour' %>">
+    </div>
+
+    <div class="form-group">
+      <label for="letter-body">Invitation Letter</label>
+      <textarea id="letter-body" name="letter" rows="24" aria-describedby="letter-help"><%= letter || defaultLetter %></textarea>
+      <span id="letter-help" class="form-help">
+        This letter will be used for all your lawmakers. You can further customize it on the next page.
+      </span>
+    </div>
+
+    <div class="letter-actions">
+      <button type="button" class="btn btn-secondary" id="reset-letter">Reset to Default</button>
+      <button type="submit" class="btn btn-primary btn-lg">Preview &amp; Send</button>
+    </div>
+  </form>
+</section>
+
+<script>
+  // Store default letter for reset functionality
+  window.__defaultLetter = <%= JSON.stringify(typeof defaultLetter !== 'undefined' ? defaultLetter : '') %>;
+  window.__defaultSubject = "Invitation to Visit [Community Name] - Senior Living Community Tour";
+</script>

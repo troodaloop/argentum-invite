@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle + ' | ' : '' %>Argentum - Invite Your Lawmaker</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="logo-link" aria-label="Argentum - Return to home page">
+          <div class="logo-placeholder" aria-hidden="true">ARGENTUM</div>
+        </a>
+        <p class="header-tagline">Senior Living. Pair Excellence with Advocacy.</p>
+      </div>
+    </div>
+  </header>
+
+  <% if (typeof currentStep !== 'undefined' && currentStep) { %>
+  <nav class="progress-bar" aria-label="Progress">
+    <div class="container">
+      <ol class="progress-steps">
+        <% const steps = ['Find Lawmakers', 'Your Lawmakers', 'Write Letter', 'Send Letter', 'Thank You'];
+           steps.forEach((label, i) => {
+             const stepNum = i + 1;
+             const isActive = stepNum === currentStep;
+             const isComplete = stepNum < currentStep;
+        %>
+        <li class="progress-step <%= isActive ? 'active' : '' %> <%= isComplete ? 'complete' : '' %>"
+            aria-current="<%= isActive ? 'step' : 'false' %>">
+          <span class="step-number" aria-hidden="true"><%- isComplete ? '&#10003;' : stepNum %></span>
+          <span class="step-label"><%= label %></span>
+        </li>
+        <% }); %>
+      </ol>
+    </div>
+  </nav>
+  <% } %>
+
+  <main id="main-content" class="main-content">
+    <div class="container">
+      <%- body %>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <p>Questions? Contact <a href="mailto:kloeber@argentum.org">kloeber@argentum.org</a></p>
+      <p class="footer-note">&copy; <%= new Date().getFullYear() %> Argentum. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<section class="contact-section" aria-labelledby="contact-heading">
+  <h1 id="contact-heading">Send Your Invitation</h1>
+  <p class="section-intro">
+    Now it's time to send your letter! Below you'll find the contact information for each of
+    your lawmakers. Click the email button to open a pre-filled email, or copy the letter
+    and send it yourself.
+  </p>
+
+  <div class="contact-cards" role="list">
+    <% lawmakers.forEach((lm, index) => {
+      const hasScheduler = lm.scheduler && lm.scheduler.scheduler_email;
+      const mailtoEmail = hasScheduler ? lm.scheduler.scheduler_email : '';
+      const mailtoSubject = encodeURIComponent(subject);
+      const mailtoBody = encodeURIComponent(letter.replace(/\[Lawmaker Name\]/g, lm.title + ' ' + lm.name));
+      const mailtoLink = mailtoEmail ? `mailto:${mailtoEmail}?subject=${mailtoSubject}&body=${mailtoBody}` : '';
+    %>
+    <article class="contact-card" role="listitem" aria-labelledby="contact-<%= index %>">
+      <div class="contact-card-header">
+        <img
+          src="<%= lm.photo_url %>"
+          alt=""
+          class="contact-photo"
+          aria-hidden="true"
+          onerror="this.style.display='none';"
+        >
+        <div>
+          <h2 id="contact-<%= index %>" class="contact-name"><%= lm.title %> <%= lm.name %></h2>
+          <p class="contact-party"><%= lm.party %> &mdash; <%= lm.district_label %></p>
+        </div>
+      </div>
+
+      <div class="contact-details">
+        <% if (hasScheduler) { %>
+        <div class="contact-row contact-row-scheduler">
+          <span class="contact-label">Scheduler:</span>
+          <span class="contact-value">
+            <%= lm.scheduler.scheduler_name || 'Scheduling Office' %>
+            &mdash; <a href="mailto:<%= lm.scheduler.scheduler_email %>"><%= lm.scheduler.scheduler_email %></a>
+            <% if (lm.scheduler.scheduler_phone) { %>
+              &mdash; <a href="tel:<%= lm.scheduler.scheduler_phone %>"><%= lm.scheduler.scheduler_phone %></a>
+            <% } %>
+          </span>
+        </div>
+        <% if (lm.scheduler.notes) { %>
+        <div class="contact-row">
+          <span class="contact-label">Note:</span>
+          <span class="contact-value"><em><%= lm.scheduler.notes %></em></span>
+        </div>
+        <% } %>
+        <% } else { %>
+        <div class="contact-row contact-row-fallback">
+          <div class="alert alert-info" role="note">
+            <strong>Scheduler email not yet on file.</strong>
+            Please call the office to request the scheduler's email, or use the official contact form.
+          </div>
+        </div>
+        <% } %>
+
+        <% if (lm.phone) { %>
+        <div class="contact-row">
+          <span class="contact-label">DC Office Phone:</span>
+          <span class="contact-value"><a href="tel:<%= lm.phone %>"><%= lm.phone %></a></span>
+        </div>
+        <% } %>
+
+        <% if (lm.address) { %>
+        <div class="contact-row">
+          <span class="contact-label">DC Office:</span>
+          <span class="contact-value"><%= lm.address %></span>
+        </div>
+        <% } %>
+
+        <% if (lm.contact_form) { %>
+        <div class="contact-row">
+          <span class="contact-label">Contact Form:</span>
+          <span class="contact-value">
+            <a href="<%= lm.contact_form %>" target="_blank" rel="noopener"><%= lm.contact_form %></a>
+          </span>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="contact-actions">
+        <% if (mailtoLink) { %>
+        <a href="<%= mailtoLink %>" class="btn btn-primary">
+          Open Email to Scheduler
+        </a>
+        <% } %>
+        <% if (lm.contact_form) { %>
+        <a href="<%= lm.contact_form %>" target="_blank" rel="noopener" class="btn btn-secondary">
+          Use Official Contact Form
+        </a>
+        <% } %>
+        <button type="button" class="btn btn-outline copy-letter-btn"
+                data-letter="<%= letter.replace(/\[Lawmaker Name\]/g, lm.title + ' ' + lm.name) %>"
+                aria-label="Copy letter for <%= lm.title %> <%= lm.name %>">
+          Copy Letter to Clipboard
+        </button>
+      </div>
+    </article>
+    <% }); %>
+  </div>
+
+  <div class="section-actions">
+    <a href="/letter" class="btn btn-secondary">Back to Edit Letter</a>
+    <a href="/thankyou" class="btn btn-primary btn-lg">I've Sent My Letters</a>
+  </div>
+</section>

@@ -1,0 +1,833 @@
+/* ============================================
+   Argentum — Invite Your Lawmaker
+   Styles with accessibility & branding placeholders
+   ============================================ */
+
+/* --- CSS Custom Properties (easy branding swap) --- */
+:root {
+  --primary: #1a3a5c;       /* Deep navy — swap with Argentum primary */
+  --primary-light: #2a5a8c;
+  --primary-dark: #0e2440;
+  --accent: #c4a035;        /* Gold accent — swap with Argentum accent */
+  --accent-light: #d4b856;
+  --text: #1a1a1a;
+  --text-light: #555;
+  --bg: #f8f8f6;
+  --white: #ffffff;
+  --border: #d0d0d0;
+  --error: #c0392b;
+  --error-bg: #fdf0ef;
+  --info: #2980b9;
+  --info-bg: #eaf4fb;
+  --success: #27ae60;
+  --success-bg: #eafaf1;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 20px rgba(0,0,0,0.12);
+  --font-body: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --max-width: 960px;
+  --transition: 0.2s ease;
+}
+
+/* --- Reset & Base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 100%;  /* 16px base */
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;  /* 17px — slightly larger for older users */
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Skip Link (accessibility) --- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  background: var(--primary);
+  color: var(--white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0 0 var(--radius) var(--radius);
+  z-index: 1000;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* --- Container --- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* --- Header --- */
+.site-header {
+  background: var(--primary);
+  color: var(--white);
+  padding: 1rem 0;
+  box-shadow: var(--shadow);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.logo-link {
+  text-decoration: none;
+  color: var(--white);
+}
+.logo-placeholder {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+}
+.header-tagline {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  color: var(--white);
+}
+
+/* --- Progress Bar --- */
+.progress-bar {
+  background: var(--white);
+  border-bottom: 2px solid var(--border);
+  padding: 1rem 0;
+}
+.progress-steps {
+  display: flex;
+  list-style: none;
+  justify-content: space-between;
+  counter-reset: step;
+}
+.progress-step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+.progress-step + .progress-step::before {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: -50%;
+  width: 100%;
+  height: 2px;
+  background: var(--border);
+  z-index: 0;
+}
+.progress-step.complete + .progress-step::before {
+  background: var(--success);
+}
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--text-light);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+  position: relative;
+  z-index: 1;
+}
+.progress-step.active .step-number {
+  background: var(--primary);
+  color: var(--white);
+}
+.progress-step.complete .step-number {
+  background: var(--success);
+  color: var(--white);
+}
+.progress-step.active .step-label {
+  color: var(--primary);
+  font-weight: 600;
+}
+.step-label {
+  display: block;
+}
+
+/* --- Main Content --- */
+.main-content {
+  flex: 1;
+  padding: 2.5rem 0;
+}
+
+/* --- Hero Section --- */
+.hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.hero h1 {
+  font-size: 2.25rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+.hero-lead {
+  font-size: 1.15rem;
+  color: var(--text-light);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* --- Why Section --- */
+.why-section {
+  margin-bottom: 3rem;
+}
+.why-section h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+.why-card {
+  background: var(--white);
+  padding: 1.75rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.why-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+.why-card h3 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  font-size: 1.15rem;
+}
+
+/* --- Address Form --- */
+.address-section {
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.address-section h2 {
+  color: var(--primary);
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--text);
+}
+.required {
+  color: var(--error);
+}
+.form-help {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 0.25rem;
+}
+
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--text);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.15);
+}
+input:invalid:not(:placeholder-shown) {
+  border-color: var(--error);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 200px;
+  line-height: 1.6;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+}
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition);
+  line-height: 1.4;
+}
+.btn:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+.btn-primary:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-light);
+}
+.btn-secondary {
+  background: var(--white);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.btn-secondary:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border-color: var(--border);
+}
+.btn-outline:hover {
+  border-color: var(--primary);
+  background: rgba(26, 58, 92, 0.05);
+}
+.btn-lg {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+}
+
+/* --- Alerts --- */
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+.alert-error {
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid var(--error);
+}
+.alert-info {
+  background: var(--info-bg);
+  color: var(--info);
+  border: 1px solid var(--info);
+}
+.alert-success {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+
+/* --- Lawmakers Grid --- */
+.lawmakers-section h1 {
+  font-size: 1.75rem;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+.section-intro {
+  font-size: 1.05rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+
+.lawmakers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.lawmaker-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: box-shadow var(--transition);
+}
+.lawmaker-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+.lawmaker-photo-wrap {
+  background: var(--primary-dark);
+  text-align: center;
+  padding: 1.5rem 1.5rem 0;
+}
+.lawmaker-photo {
+  width: 150px;
+  height: 180px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.lawmaker-info {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+.lawmaker-name {
+  font-size: 1.2rem;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+.lawmaker-party {
+  font-weight: 600;
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+.lawmaker-district {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+.lawmaker-phone,
+.lawmaker-website {
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+.lawmaker-website a,
+.lawmaker-phone a {
+  color: var(--primary);
+}
+
+.not-right {
+  background: var(--info-bg);
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius);
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--info);
+}
+.not-right h3 {
+  font-size: 1rem;
+  color: var(--info);
+  margin-bottom: 0.25rem;
+}
+.not-right p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* --- Letter Section --- */
+.letter-section h1 {
+  font-size: 1.75rem;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+.letter-tips {
+  background: var(--info-bg);
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius);
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--info);
+}
+.letter-tips h2 {
+  font-size: 1.05rem;
+  color: var(--info);
+  margin-bottom: 0.5rem;
+}
+.letter-tips ul {
+  margin-left: 1.25rem;
+  font-size: 0.95rem;
+}
+.letter-tips li {
+  margin-bottom: 0.25rem;
+}
+
+.letter-form textarea {
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.letter-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+/* --- Contact Section --- */
+.contact-section h1 {
+  font-size: 1.75rem;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+
+.contact-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.contact-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.75rem;
+}
+.contact-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.contact-photo {
+  width: 60px;
+  height: 72px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 4px;
+}
+.contact-name {
+  font-size: 1.2rem;
+  color: var(--primary);
+  margin-bottom: 0.15rem;
+}
+.contact-party {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.contact-details {
+  margin-bottom: 1.25rem;
+}
+.contact-row {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.95rem;
+  flex-wrap: wrap;
+}
+.contact-row:last-child {
+  border-bottom: none;
+}
+.contact-label {
+  font-weight: 600;
+  color: var(--text);
+  min-width: 130px;
+  flex-shrink: 0;
+}
+.contact-value {
+  color: var(--text-light);
+  word-break: break-word;
+}
+.contact-value a {
+  color: var(--primary);
+}
+.contact-row-scheduler {
+  background: var(--success-bg);
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  border-bottom: none;
+  margin-bottom: 0.5rem;
+}
+.contact-row-fallback .alert {
+  margin-bottom: 0;
+}
+
+.contact-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* --- Thank You Section --- */
+.thankyou-section h1 {
+  font-size: 1.75rem;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+.thankyou-hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.thankyou-icon {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.next-steps h2,
+.followup-letter h2,
+.share-section h2 {
+  font-size: 1.35rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+.next-steps {
+  margin-bottom: 2.5rem;
+}
+.next-steps-list {
+  margin-left: 1.25rem;
+}
+.next-steps-list li {
+  margin-bottom: 0.75rem;
+  padding-left: 0.5rem;
+}
+
+/* --- Prep Document Section --- */
+.prep-section {
+  margin-bottom: 2.5rem;
+}
+.prep-card {
+  background: var(--white);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  margin: 1.25rem 0;
+}
+.prep-card-inner {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+.prep-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+.prep-info h3 {
+  color: var(--primary);
+  font-size: 1.1rem;
+  margin-bottom: 0.35rem;
+}
+.prep-info p {
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+.prep-actions {
+  text-align: center;
+}
+.prep-tips {
+  background: var(--info-bg);
+  border-left: 4px solid var(--info);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-top: 1.25rem;
+}
+.prep-tips h3 {
+  font-size: 1.05rem;
+  color: var(--info);
+  margin-bottom: 0.5rem;
+}
+.prep-tips ul {
+  margin-left: 1.25rem;
+  font-size: 0.95rem;
+}
+.prep-tips li {
+  margin-bottom: 0.35rem;
+}
+
+.followup-letter {
+  margin-bottom: 2.5rem;
+}
+.followup-letter textarea {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  background: #fafafa;
+}
+
+.share-section {
+  margin-bottom: 2.5rem;
+}
+.share-card {
+  background: var(--accent);
+  color: var(--primary-dark);
+  padding: 2rem;
+  border-radius: var(--radius);
+}
+.share-card a {
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+.share-contact {
+  background: rgba(255,255,255,0.6);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  margin: 1rem 0;
+}
+.share-note {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+/* --- Section Actions --- */
+.section-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.source-note {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+/* --- Footer --- */
+.site-footer {
+  background: var(--primary-dark);
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+  padding: 1.5rem 0;
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+.site-footer a {
+  color: var(--accent-light);
+}
+.footer-note {
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
+  opacity: 0.6;
+}
+
+/* --- Toast Notification (for copy feedback) --- */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--primary);
+  color: var(--white);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+.toast.visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 1.65rem;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .address-section {
+    padding: 1.5rem;
+  }
+  .progress-steps {
+    gap: 0.25rem;
+  }
+  .step-label {
+    font-size: 0.7rem;
+  }
+  .step-number {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: 0.75rem;
+  }
+  .header-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .contact-card-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .contact-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .contact-label {
+    min-width: auto;
+  }
+  .contact-actions {
+    flex-direction: column;
+  }
+  .contact-actions .btn {
+    width: 100%;
+  }
+  .section-actions {
+    flex-direction: column;
+  }
+  .section-actions .btn {
+    width: 100%;
+  }
+  .letter-actions {
+    flex-direction: column;
+  }
+  .letter-actions .btn {
+    width: 100%;
+  }
+  .lawmakers-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Focus Visible (keyboard users only) --- */
+*:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* --- Print Styles --- */
+@media print {
+  .site-header, .progress-bar, .site-footer, .btn, .section-actions {
+    display: none;
+  }
+  body {
+    font-size: 12pt;
+    color: #000;
+  }
+}

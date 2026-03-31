@@ -1,0 +1,117 @@
+<section class="hero" aria-labelledby="hero-heading">
+  <h1 id="hero-heading">Invite Your Lawmaker to Visit Senior Living</h1>
+  <p class="hero-lead">
+    Government officials at every level make decisions that directly affect the lives of older
+    Americans and the dedicated professionals who care for them. Yet many lawmakers have never
+    stepped inside a senior living community.
+  </p>
+</section>
+
+<section class="why-section" aria-labelledby="why-heading">
+  <h2 id="why-heading">Why Invite Your Lawmaker?</h2>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon" aria-hidden="true">&#127970;</div>
+      <h3>Show the Reality</h3>
+      <p>
+        A firsthand visit lets lawmakers see the compassionate, high-quality care being
+        provided every day&mdash;far beyond what any report or testimony can convey.
+      </p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon" aria-hidden="true">&#129309;</div>
+      <h3>Build Relationships</h3>
+      <p>
+        Personal connections with elected officials create lasting advocacy relationships.
+        When they know your community, they think of you when policy decisions arise.
+      </p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon" aria-hidden="true">&#128220;</div>
+      <h3>Shape Better Policy</h3>
+      <p>
+        Informed lawmakers make better decisions. Your community tour can educate officials
+        on workforce challenges, regulatory burdens, and the needs of older adults.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="address-section" aria-labelledby="address-heading">
+  <h2 id="address-heading">Let's Get Started</h2>
+  <p>
+    Enter the address of the senior living community where you'd like to invite your lawmakers.
+    We'll match you with your U.S. Senators and Representative in the
+    <strong>119th Congress</strong>.
+  </p>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+  <div class="alert alert-error" role="alert" aria-live="polite">
+    <strong>Error:</strong> <%= error %>
+  </div>
+  <% } %>
+
+  <form action="/lookup" method="POST" class="address-form" id="address-form" novalidate>
+    <div class="form-group">
+      <label for="street">Street Address <span class="required" aria-label="required">*</span></label>
+      <input type="text" id="street" name="street" required autocomplete="street-address"
+             placeholder="e.g., 123 Main Street"
+             value="<%= typeof formData !== 'undefined' && formData.street ? formData.street : '' %>"
+             aria-describedby="street-help">
+      <span id="street-help" class="form-help">The street address of the senior living community</span>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group form-group-city">
+        <label for="city">City <span class="required" aria-label="required">*</span></label>
+        <input type="text" id="city" name="city" required autocomplete="address-level2"
+               placeholder="e.g., Arlington"
+               value="<%= typeof formData !== 'undefined' && formData.city ? formData.city : '' %>">
+      </div>
+
+      <div class="form-group form-group-state">
+        <label for="state">State <span class="required" aria-label="required">*</span></label>
+        <select id="state" name="state" required autocomplete="address-level1">
+          <option value="">Select...</option>
+          <% const states = [
+            ['AL','Alabama'],['AK','Alaska'],['AZ','Arizona'],['AR','Arkansas'],['CA','California'],
+            ['CO','Colorado'],['CT','Connecticut'],['DE','Delaware'],['FL','Florida'],['GA','Georgia'],
+            ['HI','Hawaii'],['ID','Idaho'],['IL','Illinois'],['IN','Indiana'],['IA','Iowa'],
+            ['KS','Kansas'],['KY','Kentucky'],['LA','Louisiana'],['ME','Maine'],['MD','Maryland'],
+            ['MA','Massachusetts'],['MI','Michigan'],['MN','Minnesota'],['MS','Mississippi'],['MO','Missouri'],
+            ['MT','Montana'],['NE','Nebraska'],['NV','Nevada'],['NH','New Hampshire'],['NJ','New Jersey'],
+            ['NM','New Mexico'],['NY','New York'],['NC','North Carolina'],['ND','North Dakota'],['OH','Ohio'],
+            ['OK','Oklahoma'],['OR','Oregon'],['PA','Pennsylvania'],['RI','Rhode Island'],['SC','South Carolina'],
+            ['SD','South Dakota'],['TN','Tennessee'],['TX','Texas'],['UT','Utah'],['VT','Vermont'],
+            ['VA','Virginia'],['WA','Washington'],['WV','West Virginia'],['WI','Wisconsin'],['WY','Wyoming'],
+            ['DC','District of Columbia']
+          ];
+          states.forEach(([abbr, name]) => { %>
+          <option value="<%= abbr %>" <%= typeof formData !== 'undefined' && formData.state === abbr ? 'selected' : '' %>><%= name %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <div class="form-group form-group-zip">
+        <label for="zip">ZIP Code <span class="required" aria-label="required">*</span></label>
+        <input type="text" id="zip" name="zip" required autocomplete="postal-code"
+               pattern="[0-9]{5}" maxlength="5"
+               placeholder="e.g., 22209"
+               value="<%= typeof formData !== 'undefined' && formData.zip ? formData.zip : '' %>"
+               aria-describedby="zip-help">
+        <span id="zip-help" class="form-help">5-digit ZIP code</span>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">
+      <span class="btn-text">Find My Lawmakers</span>
+      <span class="btn-loading" aria-hidden="true" style="display:none;">Searching...</span>
+    </button>
+  </form>
+
+  <p class="source-note">
+    Lawmaker data sourced from official congressional records via
+    <a href="https://www.congress.gov/members" target="_blank" rel="noopener">congress.gov</a> and
+    <a href="https://www.house.gov/representatives/find-your-representative" target="_blank" rel="noopener">house.gov</a>.
+  </p>
+</section>
