@@ -6,13 +6,20 @@
     and send it yourself.
   </p>
 
+  <div class="cc-info" role="note">
+    <strong>Note:</strong> Argentum's policy team (<a href="mailto:kloeber@argentum.org">kloeber@argentum.org</a>)
+    will be automatically CC'd on emails sent via the buttons below. If you are copying the letter
+    and sending independently, please CC <strong>kloeber@argentum.org</strong> so we can track
+    outreach and support your advocacy.
+  </div>
+
   <div class="contact-cards" role="list">
     <% lawmakers.forEach((lm, index) => {
       const hasScheduler = lm.scheduler && lm.scheduler.scheduler_email;
       const mailtoEmail = hasScheduler ? lm.scheduler.scheduler_email : '';
       const mailtoSubject = encodeURIComponent(subject);
       const mailtoBody = encodeURIComponent(letter.replace(/\[Lawmaker Name\]/g, lm.title + ' ' + lm.name));
-      const mailtoLink = mailtoEmail ? `mailto:${mailtoEmail}?subject=${mailtoSubject}&body=${mailtoBody}` : '';
+      const mailtoLink = mailtoEmail ? `mailto:${mailtoEmail}?subject=${mailtoSubject}&body=${mailtoBody}&cc=kloeber%40argentum.org` : '';
     %>
     <article class="contact-card" role="listitem" aria-labelledby="contact-<%= index %>">
       <div class="contact-card-header">
@@ -103,6 +110,8 @@
 
   <div class="section-actions">
     <a href="/letter" class="btn btn-secondary">Back to Edit Letter</a>
-    <a href="/thankyou" class="btn btn-primary btn-lg">I've Sent My Letters</a>
+    <form action="/submit-report" method="POST" style="display: inline;">
+      <button type="submit" class="btn btn-primary btn-lg">I've Sent My Letters</button>
+    </form>
   </div>
 </section>

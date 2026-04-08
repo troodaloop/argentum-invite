@@ -19,7 +19,7 @@
     <div class="form-group">
       <label for="subject-line">Email Subject Line</label>
       <input type="text" id="subject-line" name="subject"
-             value="<%= subject || 'Invitation to Visit [Community Name] - Senior Living Community Tour' %>">
+             value="<%= subject || (typeof defaultSubject !== 'undefined' ? defaultSubject : 'Invitation to Visit [Community Name] - Senior Living Community Tour') %>">
     </div>
 
     <div class="form-group">
@@ -40,5 +40,5 @@
 <script>
   // Store default letter for reset functionality
   window.__defaultLetter = <%= JSON.stringify(typeof defaultLetter !== 'undefined' ? defaultLetter : '') %>;
-  window.__defaultSubject = "Invitation to Visit [Community Name] - Senior Living Community Tour";
+  window.__defaultSubject = <%= JSON.stringify(typeof defaultSubject !== 'undefined' ? defaultSubject : "Invitation to Visit [Community Name] - Senior Living Community Tour") %>;
 </script>

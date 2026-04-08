@@ -52,10 +52,57 @@
   <% } %>
 
   <form action="/lookup" method="POST" class="address-form" id="address-form" novalidate>
+    <div class="user-info-section">
+      <h3>About You</h3>
+      <div class="form-row-2">
+        <div class="form-group">
+          <label for="firstName">Your First Name <span class="required" aria-label="required">*</span></label>
+          <input type="text" id="firstName" name="firstName" required autocomplete="given-name"
+                 placeholder="Jane"
+                 value="<%= typeof formData !== 'undefined' && formData.firstName ? formData.firstName : '' %>">
+        </div>
+        <div class="form-group">
+          <label for="lastName">Your Last Name <span class="required" aria-label="required">*</span></label>
+          <input type="text" id="lastName" name="lastName" required autocomplete="family-name"
+                 placeholder="Smith"
+                 value="<%= typeof formData !== 'undefined' && formData.lastName ? formData.lastName : '' %>">
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div class="form-group">
+          <label for="title">Your Title <span class="required" aria-label="required">*</span></label>
+          <input type="text" id="title" name="title" required autocomplete="organization-title"
+                 placeholder="Executive Director"
+                 value="<%= typeof formData !== 'undefined' && formData.title ? formData.title : '' %>">
+        </div>
+        <div class="form-group">
+          <label for="email">Your Email Address <span class="required" aria-label="required">*</span></label>
+          <input type="email" id="email" name="email" required autocomplete="email"
+                 placeholder="jsmith@community.org"
+                 value="<%= typeof formData !== 'undefined' && formData.email ? formData.email : '' %>">
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div class="form-group">
+          <label for="communityName">Name of Your Community <span class="required" aria-label="required">*</span></label>
+          <input type="text" id="communityName" name="communityName" required
+                 placeholder="Blue Sky Senior Living"
+                 value="<%= typeof formData !== 'undefined' && formData.communityName ? formData.communityName : '' %>">
+        </div>
+        <div class="form-group">
+          <label for="residentCount">Approximate Number of Residents</label>
+          <input type="number" id="residentCount" name="residentCount" min="0"
+                 placeholder="120"
+                 value="<%= typeof formData !== 'undefined' && formData.residentCount ? formData.residentCount : '' %>">
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color: var(--primary); font-size: 1.15rem; margin-bottom: 1rem;">Community Address</h3>
     <div class="form-group">
       <label for="street">Street Address <span class="required" aria-label="required">*</span></label>
       <input type="text" id="street" name="street" required autocomplete="street-address"
-             placeholder="e.g., 123 Main Street"
+             placeholder="123 Main Street"
              value="<%= typeof formData !== 'undefined' && formData.street ? formData.street : '' %>"
              aria-describedby="street-help">
       <span id="street-help" class="form-help">The street address of the senior living community</span>
@@ -65,7 +112,7 @@
       <div class="form-group form-group-city">
         <label for="city">City <span class="required" aria-label="required">*</span></label>
         <input type="text" id="city" name="city" required autocomplete="address-level2"
-               placeholder="e.g., Arlington"
+               placeholder="Arlington"
                value="<%= typeof formData !== 'undefined' && formData.city ? formData.city : '' %>">
       </div>
 
@@ -96,7 +143,7 @@
         <label for="zip">ZIP Code <span class="required" aria-label="required">*</span></label>
         <input type="text" id="zip" name="zip" required autocomplete="postal-code"
                pattern="[0-9]{5}" maxlength="5"
-               placeholder="e.g., 22209"
+               placeholder="22209"
                value="<%= typeof formData !== 'undefined' && formData.zip ? formData.zip : '' %>"
                aria-describedby="zip-help">
         <span id="zip-help" class="form-help">5-digit ZIP code</span>

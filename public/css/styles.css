@@ -3,28 +3,65 @@
    Styles with accessibility & branding placeholders
    ============================================ */
 
+/* --- Proxima Nova @font-face --- */
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/ProximaNova-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/ProximaNova-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/ProximaNova-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/ProximaNova-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/ProximaNova-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* --- CSS Custom Properties (easy branding swap) --- */
 :root {
-  --primary: #1a3a5c;       /* Deep navy — swap with Argentum primary */
-  --primary-light: #2a5a8c;
-  --primary-dark: #0e2440;
-  --accent: #c4a035;        /* Gold accent — swap with Argentum accent */
-  --accent-light: #d4b856;
-  --text: #1a1a1a;
-  --text-light: #555;
+  --primary: #162B53;       /* Argentum Navy */
+  --primary-light: #1e3a6e;
+  --primary-dark: #0e1c38;
+  --accent: #FFC62F;        /* Argentum Gold */
+  --accent-light: #FFD45F;
+  --text: #404041;          /* Argentum Gray */
+  --text-light: #666;
   --bg: #f8f8f6;
   --white: #ffffff;
   --border: #d0d0d0;
-  --error: #c0392b;
+  --error: #93272C;         /* Argentum Red */
   --error-bg: #fdf0ef;
-  --info: #2980b9;
+  --info: #004C97;          /* Argentum Blue */
   --info-bg: #eaf4fb;
-  --success: #27ae60;
+  --success: #275D38;       /* Argentum Green */
   --success-bg: #eafaf1;
   --radius: 8px;
   --shadow: 0 2px 8px rgba(0,0,0,0.08);
   --shadow-lg: 0 4px 20px rgba(0,0,0,0.12);
-  --font-body: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-body: 'Proxima Nova', 'Montserrat', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --max-width: 960px;
   --transition: 0.2s ease;
 }
@@ -96,6 +133,57 @@ body {
   font-weight: 700;
   letter-spacing: 0.15em;
   color: var(--accent);
+}
+.logo-img {
+  height: 48px;
+  width: auto;
+}
+/* --- CC Info Box --- */
+.cc-info {
+  background: var(--info-bg);
+  border: 1px solid var(--info);
+  border-left: 4px solid var(--info);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--info);
+}
+.cc-info strong {
+  color: var(--text);
+}
+/* --- User Info Form Section --- */
+.user-info-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.user-info-section h3 {
+  color: var(--primary);
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+}
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+/* --- Resource Cards Grid --- */
+.prep-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin: 1.25rem 0;
+}
+.prep-cards-grid .prep-card {
+  margin: 0;
+}
+/* --- Calendar Button --- */
+.calendar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 .header-tagline {
   font-size: 0.9rem;
@@ -256,6 +344,7 @@ body {
 
 input[type="text"],
 input[type="email"],
+input[type="number"],
 select,
 textarea {
   width: 100%;
@@ -273,7 +362,7 @@ select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.15);
+  box-shadow: 0 0 0 3px rgba(22, 43, 83, 0.15);
 }
 input:invalid:not(:placeholder-shown) {
   border-color: var(--error);
@@ -337,7 +426,7 @@ textarea {
 }
 .btn-outline:hover {
   border-color: var(--primary);
-  background: rgba(26, 58, 92, 0.05);
+  background: rgba(22, 43, 83, 0.05);
 }
 .btn-lg {
   padding: 1rem 2.5rem;
@@ -760,7 +849,8 @@ textarea {
   .hero h1 {
     font-size: 1.65rem;
   }
-  .form-row {
+  .form-row,
+  .form-row-2 {
     grid-template-columns: 1fr;
   }
   .address-section {

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 130" fill="none">
+  <!-- "A" icon with gold and navy stripes -->
+  <g transform="translate(0, 5)">
+    <!-- Gold left stripe -->
+    <path d="M 18 120 L 38 120 L 62 10 L 42 10 Z" fill="#FFC62F"/>
+    <!-- Gold middle-left stripe -->
+    <path d="M 32 120 L 52 120 L 76 10 L 56 10 Z" fill="#FFC62F"/>
+    <!-- White gap (handled by spacing) -->
+    <!-- Navy right stripe of A -->
+    <path d="M 48 120 L 68 120 L 92 10 L 72 10 Z" fill="#162B53"/>
+    <!-- Navy diagonal right leg -->
+    <path d="M 58 120 L 98 120 L 72 10 L 58 45 Z" fill="#162B53"/>
+  </g>
+  <!-- "ARGENTUM" wordmark -->
+  <text x="130" y="82" font-family="'Montserrat', 'Proxima Nova', 'Segoe UI', sans-serif" font-size="56" font-weight="300" letter-spacing="6" fill="#404041">ARGENTUM</text>
+  <!-- "EXPANDING SENIOR LIVING" tagline -->
+  <text x="132" y="112" font-family="'Montserrat', 'Proxima Nova', 'Segoe UI', sans-serif" font-size="18" font-weight="400" letter-spacing="4" fill="#404041">EXPANDING SENIOR LIVING</text>
+</svg>
