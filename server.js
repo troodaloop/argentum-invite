@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const session = require('express-session');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 const fs = require('fs');
 const { lookupAddress } = require('./utils/geocodio');
@@ -9,20 +10,52 @@ const { findLawmakers, getStateName } = require('./utils/legislators');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const IS_PROD = process.env.NODE_ENV === 'production';
+
+// --- Security: require a session secret in production ---
+if (IS_PROD && !process.env.SESSION_SECRET) {
+  console.error('FATAL: SESSION_SECRET environment variable is required in production.');
+  process.exit(1);
+}
 
 // --- Middleware ---
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// Render sits behind a proxy; trust it so secure cookies work
+app.set('trust proxy', 1);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'argentum-invite-secret-change-me',
+  secret: process.env.SESSION_SECRET || 'dev-only-secret-not-for-production',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 30 * 60 * 1000 }  // 30 minutes
+  cookie: {
+    maxAge: 2 * 60 * 60 * 1000,   // 2 hours (was 30 minutes)
+    httpOnly: true,
+    secure: IS_PROD,              // HTTPS only in production
+    sameSite: 'lax'
+  }
 }));
+
+// --- Rate limiting ---
+// Protect the paid Geocodio API and the report endpoint from abuse.
+const lookupLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,  // 1 hour
+  max: 30,                    // 30 lookups per IP per hour
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many address lookups from this location. Please try again in an hour.'
+});
+
+const reportLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false
+});
 
 // --- EJS layout helper ---
 // Wraps each view in the shared layout
@@ -64,7 +97,6 @@ Sincerely,
 [Your Name]
 [Your Title]
 [Community Name]
-[Phone Number]
 [Email Address]`;
 
 const FOLLOWUP_LETTER = `Dear [Lawmaker/Staff Name],
@@ -83,7 +115,6 @@ Sincerely,
 [Your Name]
 [Your Title]
 [Community Name]
-[Phone Number]
 [Email Address]`;
 
 // =========================================
@@ -92,16 +123,20 @@ Sincerely,
 
 // Step 1: Landing page
 app.get('/', (req, res) => {
+  // Flash a message if the user was redirected here by an expired session
+  const expired = req.query.expired === '1';
   res.render('index', {
     pageTitle: 'Home',
     currentStep: 1,
-    error: null,
+    error: expired
+      ? 'Your session expired after 2 hours of inactivity. Please start again — your info was not saved.'
+      : null,
     formData: {}
   });
 });
 
 // Address lookup (form POST from Step 1)
-app.post('/lookup', async (req, res) => {
+app.post('/lookup', lookupLimiter, async (req, res) => {
   const { street, city, state, zip, firstName, lastName, title, email, communityName, residentCount } = req.body;
   const fullAddress = `${street}, ${city}, ${state} ${zip}`;
 
@@ -144,7 +179,7 @@ app.post('/lookup', async (req, res) => {
 // Step 2: Show lawmakers
 app.get('/lawmakers', (req, res) => {
   if (!req.session.lawmakers) {
-    return res.redirect('/');
+    return res.redirect('/?expired=1');
   }
 
   res.render('lawmakers', {
@@ -162,7 +197,6 @@ function populateLetter(template, userInfo, address, state) {
   letter = letter.replace(/\[Your Name\]/g, `${userInfo.firstName} ${userInfo.lastName}`);
   letter = letter.replace(/\[Your Title\]/g, userInfo.title);
   letter = letter.replace(/\[Email Address\]/g, userInfo.email);
-  letter = letter.replace(/\[Phone Number\]/g, '');
   letter = letter.replace(/\[Community Name\]/g, userInfo.communityName);
   letter = letter.replace(/\[Community Address\]/g, address || '');
   letter = letter.replace(/\[State\]/g, stateName);
@@ -172,7 +206,7 @@ function populateLetter(template, userInfo, address, state) {
 // Step 3: Write letter
 app.get('/letter', (req, res) => {
   if (!req.session.lawmakers) {
-    return res.redirect('/');
+    return res.redirect('/?expired=1');
   }
 
   const userInfo = req.session.userInfo || {};
@@ -198,7 +232,7 @@ app.get('/letter', (req, res) => {
 // Step 4: Contact page (receives letter from Step 3)
 app.post('/contact', (req, res) => {
   if (!req.session.lawmakers) {
-    return res.redirect('/');
+    return res.redirect('/?expired=1');
   }
 
   // Save letter to session
@@ -216,7 +250,10 @@ app.post('/contact', (req, res) => {
 
 // Also allow GET to contact (back navigation)
 app.get('/contact', (req, res) => {
-  if (!req.session.lawmakers || !req.session.letter) {
+  if (!req.session.lawmakers) {
+    return res.redirect('/?expired=1');
+  }
+  if (!req.session.letter) {
     return res.redirect('/letter');
   }
 
@@ -230,7 +267,7 @@ app.get('/contact', (req, res) => {
 });
 
 // Submit report (from Step 4 "I've Sent My Letters")
-app.post('/submit-report', (req, res) => {
+app.post('/submit-report', reportLimiter, (req, res) => {
   const userInfo = req.session.userInfo || {};
   const lawmakers = req.session.lawmakers || [];
 
@@ -294,7 +331,11 @@ app.get('/api/calendar-reminder', (req, res) => {
   const pad = (n) => String(n).padStart(2, '0');
   const formatDate = (d) => `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
   const dtStart = formatDate(followUp);
-  const dtEnd = dtStart; // All-day event
+  // Per iCalendar spec, all-day events need DTEND = DTSTART + 1 day,
+  // otherwise Google/Outlook may render a 0-duration / skipped event.
+  const followUpEnd = new Date(followUp);
+  followUpEnd.setDate(followUpEnd.getDate() + 1);
+  const dtEnd = formatDate(followUpEnd);
 
   const ics = [
     'BEGIN:VCALENDAR',
@@ -333,6 +374,17 @@ app.get('/thankyou', (req, res) => {
     followupLetter: populatedFollowup,
     userInfo
   });
+});
+
+// --- 404 handler (must be last route) ---
+app.use((req, res) => {
+  res.status(404).render('404', { pageTitle: 'Page Not Found' });
+});
+
+// --- 500 handler ---
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).render('500', { pageTitle: 'Something Went Wrong' });
 });
 
 // --- Start Server ---

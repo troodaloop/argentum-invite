@@ -20,7 +20,7 @@ A web application that helps senior living community staff invite their federal 
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/YOUR_USERNAME/argentum-invite.git
+git clone https://github.com/troodaloop/argentum-invite.git
 cd argentum-invite
 
 # 2. Install dependencies
@@ -58,7 +58,7 @@ argentum-invite/
 │   ├── css/styles.css     # All styles (CSS variables for branding)
 │   ├── js/app.js          # Client-side interactivity
 │   └── documents/         # Downloadable resources (PDFs)
-└── .env.example           # Environment variable template
+└── .env.example           # Template — copy to .env and fill in your keys
 ```
 
 ## Updating Scheduler Contacts
