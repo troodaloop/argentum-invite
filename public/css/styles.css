@@ -243,8 +243,14 @@ body {
   color: var(--white);
 }
 .progress-step.complete .step-number {
-  background: var(--success);
+  background: transparent;
   color: var(--white);
+  padding: 0;
+}
+.progress-step.complete .step-number .step-check {
+  display: block;
+  width: 2rem;
+  height: 2rem;
 }
 .progress-step.active .step-label {
   color: var(--primary);
@@ -301,8 +307,10 @@ body {
   text-align: center;
 }
 .why-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.75rem;
+  display: block;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0 auto 0.75rem;
 }
 .why-card h3 {
   color: var(--primary);
@@ -680,8 +688,10 @@ textarea {
   margin-bottom: 2.5rem;
 }
 .thankyou-icon {
-  font-size: 3.5rem;
-  margin-bottom: 0.5rem;
+  display: block;
+  width: 5rem;
+  height: 5rem;
+  margin: 0 auto 0.5rem;
 }
 
 .next-steps h2,
@@ -720,7 +730,9 @@ textarea {
   margin-bottom: 1.25rem;
 }
 .prep-icon {
-  font-size: 2.5rem;
+  display: block;
+  width: 3.5rem;
+  height: 3.5rem;
   flex-shrink: 0;
 }
 .prep-info h3 {
@@ -866,6 +878,10 @@ textarea {
     width: 1.6rem;
     height: 1.6rem;
     font-size: 0.75rem;
+  }
+  .progress-step.complete .step-number .step-check {
+    width: 1.6rem;
+    height: 1.6rem;
   }
   .header-inner {
     flex-direction: column;

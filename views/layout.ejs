@@ -34,7 +34,7 @@
         %>
         <li class="progress-step <%= isActive ? 'active' : '' %> <%= isComplete ? 'complete' : '' %>"
             aria-current="<%= isActive ? 'step' : 'false' %>">
-          <span class="step-number" aria-hidden="true"><%- isComplete ? '&#10003;' : stepNum %></span>
+          <span class="step-number" aria-hidden="true"><% if (isComplete) { %><img src="/images/icons/checkmark.svg" alt="" class="step-check"><% } else { %><%= stepNum %><% } %></span>
           <span class="step-label"><%= label %></span>
         </li>
         <% }); %>
